@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Vizualization in R</title>
+    <meta charset="utf-8" />
+    <script src="Tutorial3_presentation_files/header-attrs-2.18/header-attrs.js"></script>
+    <link href="Tutorial3_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="Tutorial3_presentation_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="Tutorial3_presentation_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link href="Tutorial3_presentation_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="Tutorial3_presentation_files/tile-view-0.2.6/tile-view.js"></script>
+    <link href="Tutorial3_presentation_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="Tutorial3_presentation_files/panelset-0.2.6/panelset.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x1962632acf5445b93649bc64915eb06","expires":14}</script>
+    <script src="Tutorial3_presentation_files/himalaya-1.1.0/himalaya.js"></script>
+    <script src="Tutorial3_presentation_files/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="Tutorial3_presentation_files/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="Tutorial3_presentation_files/editable-0.2.6/editable.js"></script>
+    <script src="Tutorial3_presentation_files/fabric-4.3.1/fabric.min.js"></script>
+    <link href="Tutorial3_presentation_files/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="Tutorial3_presentation_files/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: left, middle
+####Tutorial 3
+
+##Data Vizualization in R.
+##ggplot2: themes and styles. 
+####Victoria Mironova 
+####Associate Professor, Department of Plant Systems Physiology
+&lt;img src="figs/Theme2.png" width="100px" align = 'right'&gt;
+
+---
+
+
+
+
+
+
+
+.pull-left[
+#Course structure
+
+**Week 5:**&lt;/br&gt;
+Lecture 1. Principles of figure design.&lt;/br&gt;
+Quiz 1.
+
+**Week 6:**&lt;/br&gt;
+Tutorial 1. ggplot2: plots and charts.&lt;/br&gt;
+Quiz 2.
+
+**Week 7:**&lt;/br&gt;
+Tutorial 2. ggplot2: statistics, coordinate system, facets. &lt;/br&gt;
+**Tutorial 3. ggplot2: themes and styles.**&lt;/br&gt;
+**Practice 1.** &lt;/br&gt;
+Quiz 3.
+
+**Week 8:**&lt;/br&gt;
+Practice 2. Project.&lt;/br&gt;
+Practice 3. Project.&lt;/br&gt;
+Practice 4. Project.&lt;/br&gt;
+Assignment.
+]
+
+--
+.pull-right[
+
+# Learning goals	
+
+- Understand the basic principles behind effective data visualization	
+
+- Create data visualizations in R using ggplot2
+
+- **Craft elegant visual presentations of data**
+
+]
+---
+#Grammar of graphics
+
+.pull-left[
+&lt;div class="figure"&gt;
+&lt;img src="figs/GrammarGraphics4.png" alt="Layers in grammar of graphics" width="100%" /&gt;
+&lt;p class="caption"&gt;Layers in grammar of graphics&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+
+The **Themes Layer** refers to all non-data ink. 
+
+- You can change the labels of x or y axis, 
+
+- add a plot title, 
+
+- modify a legend title and position, 
+
+- add text anywhere on the plot, 
+
+- change the background color, axis lines, plot lines, 
+
+- etc. 
+
+]
+---
+class: middle, inverse
+
+# Plan of the tutorial
+
+- Themes principles
+
+- Build-in themes
+
+- Data annotation
+
+- Customized design 1
+
+- Customized design 2
+
+---
+# ?Theme()
+
+There are three types of elements within the themes Layer: text, line, and rectangle.
+
+Any text element can be modified with `element_text()`
+
+Any line element can be modified with `element_line()`
+
+Any rect element can be modified with `element_rect()`
+
+
+One can also use `element_blank()` function to drop the element.
+
+---
+#Build-in themes
+
+For the most part you can probably avoid the theme() function by using built-in themes, unless there is a specific element you want to modify.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+p &lt;- Death_in_NL %&gt;%
+  filter(Age == "Total", CausesOfDeath == "Infections")%&gt;%
+  ggplot(mapping = aes(x = Year, y = Deaths, linetype = Sex))+
+  geom_path(show.legend = FALSE)
+
+p1 &lt;- p +  theme_classic()
+p2 &lt;- p +  theme_bw()
+p3 &lt;- p +  theme_light()
+p4 &lt;- p + theme_void()
+p5 &lt;- p + theme_cowplot()
+p6 &lt;- p + theme_dark()
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 3, labels = c("theme_classic()", "theme_bw()", "theme_light()", "theme_void()", "theme_cowplot()", "theme_dark()"))
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial3_presentation_files/figure-html/themes-1.png" width="1008" /&gt;
+]
+]
+---
+#Customised theme: change styles of axes texts and lines
+
+.pull-left[
+
+```r
+p &lt;- Death_in_NL %&gt;%
+  filter(Age == "Total", CausesOfDeath == "Infections")%&gt;%
+  ggplot(mapping = aes(x = Year, y = Deaths, linetype = Sex))+
+  geom_path(show.legend = FALSE)
+
+p1 &lt;- p + theme(axis.line = element_line(linewidth = 3, colour = "grey80"))
+p2 &lt;- p + theme(axis.text = element_text(colour = "blue"))
+p3 &lt;- p + theme(axis.ticks = element_line(linewidth = 2))
+
+plot_grid(p, p1, p2, p3, ncol = 1, labels = c("default", "axis width", "axis text", "axis ticks"),
+          label_x = 0.5, label_y = 1, hjust = 0, vjust = 1)
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
+]
+---
+#Customised theme: axes and legend text formatting
+.pull-left[
+
+```r
+p &lt;- Death_in_NL %&gt;%
+  filter(Age == "Total", Sex == "Male")%&gt;%
+  ggplot(aes(x = Year, y = Deaths, color = CausesOfDeath), linewidth = 2)+
+  geom_path()+
+  scale_color_discrete()
+
+p1 &lt;- p + theme_classic()+
+  ggtitle("Total number of deaths from different causes, male")+
+  labs(x = NULL, y = NULL)+
+  theme(legend.title = element_blank(),
+        axis.text = element_text(size = 11),
+        legend.text = element_text(size = 11))
+p
+p1
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;&lt;img src="Tutorial3_presentation_files/figure-html/unnamed-chunk-4-2.png" width="504" /&gt;
+]
+
+---
+#labs: annotate the plot
+
+Good labels are critical for making your plots accessible to a wider audience. Always ensure the axis and legend labels display the full variable name. Use the plot title and subtitle to explain the main findings.
+.pull-left[
+
+```r
+Death_in_NL %&gt;%
+  filter(Age == "Total", CausesOfDeath == "Infections")%&gt;%
+  ggplot(mapping = aes(x = Year, y = Deaths, linetype = Sex))+
+  geom_path(show.legend = FALSE)+
+  labs(title = "It is a title", 
+       subtitle = "with an additional description",
+       caption = "Caption. It's common to use the caption to provide information about the data source.",
+       x = "New x label",
+       y = "New y Label")+
+  theme(text = element_text(size = 15))
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+]
+---
+#Scales formatting and transformations
+
+`scale_` family of functions affect how a single observation raw data is 'interpreted' before going on the graph. There are two types of scales: `continuous` and  `discrete`. `scale_` functions are used to set colors, limits, and transformations.
+
+
+.pull-left[
+
+```r
+p &lt;- Death_in_NL %&gt;%
+  filter(Age == "Total", CausesOfDeath == "Infections")%&gt;%
+  ggplot(mapping = aes(x = Year, y = Deaths, color = Sex))+
+  geom_path(show.legend = FALSE)
+
+p1 &lt;- p + scale_color_brewer(palette = 'Set1')
+p2 &lt;- p + scale_color_manual(values = c("yellow", "dark gray"))
+p3 &lt;- p + scale_y_continuous(position = "right", limits = c(0, 2000), name = NULL)
+          
+
+plot_grid(p, p1, p2, p3, ncol = 1, labels = c("default", "Color Brewer", "Scale Manual", "Scale y continuous"),
+          label_x = 0.5, label_y = 1, hjust = 0, vjust = 1)
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+]
+
+---
+class: inverse, middle
+
+#Customised bar plot: example
+---
+#Lets customize the bar plot we built on Tutorial 2
+
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
+  stat_summary(fun.data = "mean_se", geom = "bar")+
+  coord_flip()+
+  ggtitle("Causes of Death in NL")
+```
+
+What I don't like:
+
+1. the y axis title is non-sense
+1. the x axis title is unclear
+1. the text size on the y axis is too small
+1. the gray background is annoying
+1. the columns color is not appealing
+
+Lets address those issues!
+
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/bar plot SD3-1.png" width="504" /&gt;
+]
+---
+#Customised bar plot
+
+.pull-left[
+1. the y axis title is non-sense
+1. the x axis title is unclear
+1. the text size on the y axis is too small
+1. the gray background is annoying
+1. the columns color is not appealing
+
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
+  stat_summary(fun.data = "mean_se", geom = "bar")+
+  coord_flip()+
+* labs(y = NULL, x = NULL)+
+* ggtitle("Number of people died yearly in NL (1995 - 2021)")
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/customised bar plot-1.png" width="504" /&gt;
+]
+---
+#Customised bar plot
+
+.pull-left[
+1. ~~the y axis title is non-sense~~
+1. ~~the x axis title is unclear~~
+1. the text size on the y axis is too small
+1. the gray background is annoying
+1. the columns color is not appealing
+
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
+  stat_summary(fun.data = "mean_se", geom = "bar")+
+  coord_flip()+
+  labs(y = NULL, x = NULL)+
+* theme_classic()+
+* theme(axis.text = element_text(size = 12),
+*       title = element_text(size = 14))+
+* ggtitle("Number of people died yearly in NL (1995 - 2021)")
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/customised bar plot2-1.png" width="504" /&gt;
+]
+---
+#Customised bar plot
+
+.pull-left[
+1. ~~the y axis title is non-sense~~
+1. ~~the x axis title is unclear~~
+1. ~~the text size on the y axis is too small~~
+1. ~~the gray background is annoying~~
+1. the columns color is not appealing
+
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
+  stat_summary(fun.data = "mean_se", geom = "bar", 
+*              fill = "#99d8c9")+
+  coord_flip()+
+  labs(y = NULL, x = NULL)+
+  theme_classic()+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14))+
+  ggtitle("Number of people died yearly in NL (1995 - 2021)")
+```
+You can pick the color [here](https://colorbrewer2.org/), or [here](https://fffuel.co/cccolor/)].
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/customised bar plot3-1.png" width="504" /&gt;
+]
+---
+#Customised bar plot: add annotation
+
+One can add additional elements and annotations
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths, fill = Sex))+
+  stat_summary(fun.data = "mean_se", geom = "bar", fill = "#99d8c9")+
+* geom_hline(yintercept=3000, linetype="dotted")+
+* annotate(geom="text", x=15, y=5800, label="Upper threshold", size = 4.5)+
+  coord_flip()+
+  labs(y = NULL, x = NULL)+
+  theme_classic()+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14))+
+  ggtitle("Number of people died yearly in NL (1995 - 2021)")
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/bar annotation-1.png" width="504" /&gt;
+]
+---
+#Customised bar plot: facets
+
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+* ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths, fill = Sex))+
+* stat_summary(fun.data = "mean_se", geom = "bar", show.legend = FALSE)+
+  coord_flip()+
+  labs(y = NULL, x = NULL)+
+* scale_fill_manual(values = c("#fed99b", "#99d8c9"))+
+  theme_classic()+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14))+
+  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+* facet_wrap(~Sex)
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/facet-1.png" width="504" /&gt;
+]
+---
+
+#Customised bar plot: facets
+
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths, fill = Sex))+
+  stat_summary(fun.data = "mean_se", geom = "bar", show.legend = FALSE)+
+  coord_flip()+
+  labs(y = NULL, x = NULL)+
+  scale_fill_manual(values = c("#fed99b", "#99d8c9"))+
+  theme_classic()+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+*       strip.background = element_blank(),
+*       strip.text = element_text(size = 14))+
+  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  facet_wrap(~Sex)
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/facet2-1.png" width="504" /&gt;
+]
+---
+class: inverse, middle
+#Customised strip chart
+
+---
+#Vizualizations to explore the data
+
+Lets zoom in to the top2 causes of death in NL and explore if the gender-related differences are significant or not
+
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total", CausesOfDeath == c("Neoplasms", "CirculatorySystem"))%&gt;%
+  ggplot(aes(x = Sex, y = Deaths, fill = Sex))+
+  stat_summary(fun.data = "mean_se", geom = "bar", show.legend = FALSE)+
+  scale_fill_manual(values = c("#fed99b", "#99d8c9"))+
+  theme_classic()+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.background = element_blank(), 
+        strip.text = element_text(size = 14))+
+  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  facet_wrap(~CausesOfDeath)
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/strip-1.png" width="504" /&gt;
+]
+---
+#Showing individual observations on the plot
+Lets plot individual observations instead of the bar plot using `geom_jitter`.
+This will requires some adjustments of the code.
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total", CausesOfDeath == c("Neoplasms", "CirculatorySystem"))%&gt;%
+  ggplot(aes(x = Sex, y = Deaths, fill = Sex))+
+* geom_jitter(show.legend = FALSE, alpha = 0.7, shape = 21, size = 2, width = 0.1)+
+* scale_color_manual(values = c("#ef8a62", "#67a9cf"))+
+  theme_classic()+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.background = element_blank(), 
+        strip.text = element_text(size = 14))+
+  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  facet_wrap(~CausesOfDeath)
+```
+Are the differences significant?
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/strip1-1.png" width="504" /&gt;
+]
+---
+#Showing individual observations on the plot
+Would be better having some statistical estimates on the top of the individual observations.
+
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total", CausesOfDeath == c("Neoplasms", "CirculatorySystem"))%&gt;%
+  ggplot(aes(x = Sex, y = Deaths, fill = Sex))+
+  geom_jitter(show.legend = FALSE, alpha = 0.7, shape = 21, size = 2, width = 0.1)+ 
+* stat_summary(fun.data = "mean_se", show.legend = FALSE)+
+  scale_color_manual(values = c("#ef8a62", "#67a9cf"))+ 
+  theme_classic()+
+* labs(x = NULL, y = "Number of people died in NL (1995 - 2021)")+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.background = element_blank(), 
+        strip.text = element_text(size = 14),
+*       strip.placement = "outside")+
+* facet_wrap(~CausesOfDeath, strip.position = "bottom")
+```
+Are the differences significant?
+
+```
+##            Female
+## Male 2.130499e-09
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/strip2-1.png" width="504" /&gt;
+]
+---
+#Showing significance levels
+.pull-left[
+
+```r
+Death_in_NL%&gt;%
+  filter(Age == "Total", CausesOfDeath == c("Neoplasms", "CirculatorySystem"))%&gt;%
+  ggplot(aes(x = Sex, y = Deaths, fill = Sex))+
+  geom_jitter(show.legend = FALSE, alpha = 0.7, shape = 21, size = 2, width = 0.1)+ 
+  stat_summary(fun.data = "mean_se", show.legend = FALSE)+
+  scale_color_manual(values = c("#ef8a62", "#67a9cf"))+ 
+  theme_classic()+
+  labs(x = NULL, y = "Number of people died in NL (1995 - 2021)")+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.background = element_blank(), 
+        strip.text = element_text(size = 14),
+        strip.placement = "outside")+
+  facet_wrap(~CausesOfDeath, strip.position = "bottom")+
+* geom_line(data = tibble(x = c(1,2), y= c(26000, 26000)),
+*           aes(x=x, y = y), inherit.aes = FALSE)+
+* geom_text(data = tibble(x = c(1.5), y= c(26100)),
+*           aes(x=x, y = y, label = "**"), inherit.aes = FALSE)
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/strip final-1.png" width="504" /&gt;
+]
+---
+#Vizualizing statistical data using ggpubr package
+The [`ggpubr`](https://rpkgs.datanovia.com/ggpubr/) package provides some easy-to-use functions for creating and customizing ‘ggplot2’- based publication ready plots.
+
+.pull-left[
+
+```r
+library(ggpubr)
+
+Death_in_NL%&gt;%
+  filter(Age == "Total", CausesOfDeath == c("Neoplasms", "CirculatorySystem"))%&gt;%
+  ggboxplot(x = "Sex", y = "Deaths",
+                color = "Sex", palette =c("#00AFBB", "#E7B800"),
+                add = "jitter", shape = "Sex")+
+  facet_wrap(~CausesOfDeath)+
+  stat_compare_means(label = "p.format", label.x = 1.5)+
+  labs(x = NULL, y = "Number of people died in NL (1995 - 2021)")+
+  theme(axis.text = element_text(size = 12),
+        title = element_text(size = 14),
+        strip.background = element_blank(), 
+        strip.text = element_text(size = 14))+
+  rremove("legend")
+```
+]
+.pull-right[
+&lt;img src="Tutorial3_presentation_files/figure-html/strip3-1.png" width="504" /&gt;
+]
+---
+#Your turn
+
+1. Build a plot to analyze how the number of deaths from external causes (not a disease) has been changed over past years. &lt;/br&gt;
+1. Study the differences between men and women. Is there statistically significant difference?&lt;/br&gt; 
+
+You will need these data to answer the quiz in the brightspace.&lt;/br&gt;
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+
+1. Adjust the style and design of the plot making it visually appealing.
+
+You will need these skills to finalize your project next week.&lt;/br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

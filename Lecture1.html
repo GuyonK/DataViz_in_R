@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Vizualization in R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: left, middle
+####Lecture 1
+
+##Data Vizualization in R
+##Principles of figure design
+####Victoria Mironova 
+####Associate Professor, Department of Plant Systems Physiology
+&lt;img src="figs/Theme2.png" width="100px" align = 'right'&gt;
+
+---
+
+
+.pull-left[
+
+&lt;div class="figure"&gt;
+&lt;img src="figs/DataStoryTelling.jpg" alt="source: unknown" width="60%" /&gt;
+&lt;p class="caption"&gt;source: unknown&lt;/p&gt;
+&lt;/div&gt;
+]
+
+--
+
+.pull-right[
+
+# Learning goals	
+
+- Understand the basic principles behind effective data visualization. 	
+
+- Create data visualizations in R using ggplot2 	
+
+- Craft elegant visual presentations of data  
+
+]
+
+---
+#Further reading
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figs/ClausWilke.png" alt="https://clauswilke.com/dataviz/" width="70%" /&gt;
+&lt;p class="caption"&gt;https://clauswilke.com/dataviz/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figs/KieranHiely.jpg" alt="https://socviz.co/" width="75%" /&gt;
+&lt;p class="caption"&gt;https://socviz.co/&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+#Further studying
+
+###Online tutorials:
+
+&lt;img src="figs/Box1150.png" width="50px" align = 'left'&gt; https://r-charts.com/
+
+&lt;img src="figs/evolution.png" width="50px" align = 'left'&gt;https://r-graph-gallery.com/
+
+&lt;img src="figs/tree-s.png" width="50px" align = 'left'&gt;https://www.data-to-viz.com/
+
+&lt;img src="figs/gam-spec2-1.png" width="50px" align = 'left'&gt; https://cedricscherer.netlify.app/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/
+
+...
+
+
+###3EC course in Radboud University:
+
+NWI-BM083&lt;/br&gt;
+Data Visualization for the Life Sciences&lt;/br&gt;
+by K.W. Mulder
+
+---
+.pull-left[ 
+&lt;div class="figure"&gt;
+&lt;img src="figs/DataStoryTelling2.jpg" alt="source: unknown" width="60%" /&gt;
+&lt;p class="caption"&gt;source: unknown&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+#Course structure
+
+**Week 5:**&lt;/br&gt;
+Lecture 1. Principles of figure design.&lt;/br&gt;
+Quiz 1.
+
+**Week 6:**&lt;/br&gt;
+Tutorial 1. ggplot2: plots and charts.&lt;/br&gt;
+Quiz 2.
+
+**Week 7:**&lt;/br&gt;
+Tutorial 2. ggplot2: statistics, coordinate system, facets. &lt;/br&gt;
+Tutorial 3. ggplot2: themes and styles.&lt;/br&gt;
+Practice 1. &lt;/br&gt;
+Quiz 3.
+
+**Week 8:**&lt;/br&gt;
+Practice 2. Project.&lt;/br&gt;
+Practice 3. Project.&lt;/br&gt;
+Practice 4. Project.&lt;/br&gt;
+Assignment.
+
+]
+
+---
+.pull-left[ 
+&lt;div class="figure"&gt;
+&lt;img src="figs/DataStoryTelling2.jpg" alt="source: unknown" width="60%" /&gt;
+&lt;p class="caption"&gt;source: unknown&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+#Evaluation criteria
+
+**Week 5:**&lt;/br&gt;
+Lecture 1. Principles of figure design.&lt;/br&gt;
+*Quiz 1. --&gt; passed*
+
+**Week 6:**&lt;/br&gt;
+Tutorial 1. ggplot2: plots and charts.&lt;/br&gt;
+*Quiz 2. --&gt; passed*
+
+**Week 7:**&lt;/br&gt;
+Tutorial 2. ggplot2: statistics, coordinate system, facets. &lt;/br&gt;
+Tutorial 3. ggplot2: themes and styles.&lt;/br&gt;
+Practice 1. &lt;/br&gt;
+*Quiz 3. --&gt; passed*
+
+
+**Week 8:**&lt;/br&gt;
+Practice 2. Project.&lt;/br&gt;
+&lt;img src="figs/check.png" width="100px" align = 'right'&gt;
+Practice 3. Project.&lt;/br&gt;
+Practice 4. Project.&lt;/br&gt;
+*Assignment. --&gt; passed*
+]
+---
+
+# This is a hands-on course
+
+You will learn how to visualize the data in R.
+
+These slides were also designed in R and you can find the source code on [GitHub](https://github.com/VictoriaVMironova/DataViz_RU):
+
+
+
+
+```r
+library(tidyverse)
+library(ggplot2)
+library(cowplot)
+library(viridis)
+library(RColorBrewer)
+```
+---
+class: left, middle, inverse
+
+#Principles of figure design:
+
+- Grammar of graphics
+
+- Data
+
+- Aesthetics
+
+- Geometries
+
+- Coordinates
+
+- Color
+
+---
+#Grammar of graphics
+
+.pull-left[
+&lt;div class="figure"&gt;
+&lt;img src="figs/GrammarGraphics.png" alt="Layers in grammar of graphics" width="100%" /&gt;
+&lt;p class="caption"&gt;Layers in grammar of graphics&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+The *grammar of graphics* is a plotting framework developed by Leland Wilkinson (Grammar of Graphics, 1999) that dissects each component of a graph into individual layer. 
+
+There are two important principles:
+
+- Graphics are made of distinct layers of grammatical elements
+
+- Plots are built with appropriate aesthetic mappings to make these plots meaningful
+
+]
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+
+---
+#Grammar of graphics
+
+.pull-left[
+&lt;div class="figure"&gt;
+&lt;img src="figs/GrammarGraphics2.png" alt="Layers in grammar of graphics" width="100%" /&gt;
+&lt;p class="caption"&gt;Layers in grammar of graphics&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+
+
+Three out of 7 layers are essential for any plot:
+
+**Data** This is the dataset being plotted containing the variables to be plotted on the graph.
+
+**Aesthetics**	Aesthetics refers to the scales on which we map the data. Some common aesthetics to consider are axis, shape, size, and color.
+
+**Geometries**	Geom refers to the actual visual elements used for the data in the plot, such as points, lines, and bars.
+
+]
+---
+class: center, middle, inverse
+
+# Data
+
+---
+# CBS open data: the source 
+
+![](figs/CBS_OpenData_screenshot.png)
+https://opendata.cbs.nl/statline/
+---
+# Data 
+
+Number of deaths in the population of the Netherlands by main underlying cause of death, by age and sex, 1996-2021
+
+https://opendata.cbs.nl/statline/portal.html?_la=en&amp;_catalog=CBS&amp;tableId=7233ENG&amp;_theme=1120
+
+
+Identifier:	7233ENG
+
+Short title:	deaths; cause of death (extensive list)
+
+Reference period:	1996-2021
+---
+# Types of data
+
+&lt;img src="figs/DataType2.png" width="178" style="display: block; margin: auto;" /&gt;
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+
+???
+Lets consider the types of data we may want to represent in our visualization. You may think of data as numbers, but numerical discreet values are only one out of several types of data we may encounter. Roughly we can split the data into quantitative and qualitative. And the quantitative data can be of two types, as continuous and as discreet.
+Qualitative data can be often found in scientific data, and it is also of two types: ordered and unordered.
+
+Time &amp; Date can be considered as a specific data type, because it has its own format that might contain quantitative data (like dates, years) and ordered qualitative data (like months).
+
+---
+#Types of data: example
+
+.left-column[
+
+&lt;img src="figs/DataType.png" width="178" style="display: block; margin: auto;" /&gt;
+--
+
+Which type of data is present in different columns?
+
+]
+.right-column[
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2721092 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60-64 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GenitourinarySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2579640 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45-49 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MusculSystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1115128 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1-9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2624197 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50-54 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SkinDeseases &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3005599 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90-94 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CongenitalMalform &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2285664 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Endocr+Metabol &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2771707 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65-69 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Perinatal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2927153 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 85-89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2017 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 420 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1085319 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CirculatorySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1931241 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 85-89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GenitourinarySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2009 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 353 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+]
+
+???
+To examine a concrete example of these various types of data, lets take a look at the Table on the right. It shows 10 randomly chosen rows from a dataset providing the statistics on the number of deaths in NL population. We will work with this data during this course so I will introduce it to you in greater detail on the next slides.
+Can you already guess what types of data present in the columns?
+---
+# The data must be tidy to be plotted in gramar or graphics
+
+Following three rules makes a dataset tidy:
+
+- variables are in columns, 
+- observations are in rows, 
+- and values are in cells.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figs/tidy-1.png" alt="source: R for Data Science 12.1" width="853" /&gt;
+&lt;p class="caption"&gt;source: R for Data Science 12.1&lt;/p&gt;
+&lt;/div&gt;
+---
+#Is this dataset tidy?
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1863018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 80-84 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Neoplasms &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3601 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2931645 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 85-89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Neoplasms &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2011 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2477 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1626221 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 55-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1311905 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20-24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Psychological &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1327223 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20-24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GenitourinarySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3034839 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 95+ &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Eye+Adnexa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2011 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2494512 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35-39 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CongenitalMalform &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1325164 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20-24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MusculSystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2029877 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 95+ &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CongenitalMalform &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1546251 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45-49 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NervousSystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+If you have doubts, check it in [R for data science](https://r4ds.had.co.nz/tidy-data.html#fig:tidy-structure) or in [TowardsDataScience](https://towardsdatascience.com/what-is-tidy-data-d58bb9ad2458)
+---
+class: center, middle, inverse
+
+# Aesthetics
+---
+
+# Channels for representing data
+
+Aesthetics describe every aspect of a given graphical element.
+
+&lt;img src="Lecture1_files/figure-html/common-aesthetics-1.png" width="864" /&gt;
+
+--
+&lt;/br&gt; This figure has been created using ggplot2, adjusted from: https://clauswilke.com/dataviz/
+--
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+---
+#Scales map the data values onto aesthetics
+
+.pull-left[
+To map data values onto aesthetics, we need to specify which data values correspond to which specific aesthetics values.
+&lt;img src="Lecture1_files/figure-html/scales map data1-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
+Position: 
+  x = Year;
+  y = Deaths;
+Color = CausesOfDeath.
+]
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022190 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 890 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022191 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 736 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022192 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 757 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022193 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 814 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022194 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 788 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022195 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 773 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+#Scaling data into 'position' and 'color' aestetics
+
+.pull-left[
+To map data values onto aesthetics, we need to specify which data values correspond to which specific aesthetics values.
+&lt;img src="Lecture1_files/figure-html/scales map data0-1.png" width="360" style="display: block; margin: auto;" /&gt;
+Position: 
+  x = Year;
+  y = Deaths;&lt;/br&gt;
+Color = CausesOfDeath.
+]
+
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/scales example-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+#Scaling data into 'position' and 'line type' aestetics
+.pull-left[
+&lt;img src="Lecture1_files/figure-html/scales map data3-1.png" width="360" style="display: block; margin: auto;" /&gt;
+Position: x = Year; y = Deaths; &lt;/br&gt;
+Line type = Sex.
+]
+
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/scales example2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+#Scaling data into 'position', 'line type'&amp;'shape'
+.pull-left[
+&lt;img src="Lecture1_files/figure-html/scales map data4-1.png" width="432" style="display: block; margin: auto;" /&gt;
+Position: x = Year; y = Deaths;&lt;/br&gt; 
+Point Shape &amp; Line Type = Sex.
+]
+
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/scales example3-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+#Scaling continuous quantitative data into color
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022190 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 890 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022191 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1997 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 736 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022192 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 757 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022193 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 814 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022194 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 788 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022195 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Infections &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 773 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+Color: Deaths;&lt;/br&gt; 
+Position x: Year&lt;/br&gt;
+Position y: Age
+]
+
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/heatmap example-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+class: center, middle, inverse
+
+# Geometries
+
+
+---
+#Geometries
+
+Geoms can be roughly divided into individual and collective geoms. An individual geom draws a distinct graphical object for each observation (row). Here are the examples
+
+&lt;img src="Lecture1_files/figure-html/geom-1.png" width="576" style="display: block; margin: auto;" /&gt;
+---
+
+#Geometries
+
+A collective geom displays multiple observations with one geometric object. This may be a result of a statistical summary, like a boxplot, density plot, or histogram.
+
+&lt;img src="Lecture1_files/figure-html/collective geom-1.png" width="864" style="display: block; margin: auto;" /&gt;
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+---
+class: center, middle
+
+#How to choose the geom type?
+
+&lt;img src="figs/DatatoViz.png" width = "800 pt" align = 'center' &gt;&lt;/br&gt;
+Source: [from Data to Viz](https://www.data-to-viz.com/).
+
+---
+#How to vizualize amounts?
+
+The most common way to visualizing amounts is using bars, either vertically or horizontally arranged.
+Instead of using bars, one can also place dots at the location where the corresponding bar would end.
+
+&lt;img src="figs/amounts-2.png" height = "150 pt" align = 'center' &gt;&lt;/br&gt;
+
+--
+
+If there are two or more sets of categories for which one wants to show amounts, one can group or stack the bars. One can also map the categories onto the x and y axis and show amounts by color, via a heatmap.
+
+&lt;img src="figs/amounts_multi-2.png" height = "150 pt" align = 'center' &gt;&lt;/br&gt;
+
+Source: [Fundamentals of Data Vizualization](https://clauswilke.com/dataviz).
+
+---
+#How to vizualize distributions?
+
+Histograms and density plots provide the most intuitive visualizations of a distribution, but both require arbitrary parameter choices and can be misleading. 
+
+&lt;img src="figs/single-distributions-2.png" height = "150 pt" align = 'center' &gt;
+--
+&lt;img src="figs/multiple-distributions-2.png" height = "150 pt" align = 'center' &gt;
+
+--
+
+Boxplots, violins, strip charts, and sina plots are useful when one wants to visualize many distributions at once and/or if we are primarily interested in overall shifts among the distributions.
+
+&lt;img src="figs/multiple-distributions-3.png" height = "150 pt" width = "600" align = 'center' &gt;&lt;/br&gt;
+
+Source: [Fundamentals of Data Vizualization](https://clauswilke.com/dataviz).
+---
+#How to vizualize proportions?
+
+Proportions can be visualized as pie charts, side-by-side bars, or stacked bars. Pie charts emphasize that the individual parts add up to a whole and highlight simple fractions. However, the individual pieces are more easily compared in side-by-side bars.
+
+&lt;img src="figs/proportions-2.png" height = "150 pt" align = 'center' &gt;&lt;/br&gt;
+--
+When visualizing multiple sets of proportions, pie charts tend to be space-inefficient and often obscure relationships. Grouped bars work well as long as the number of conditions compared is moderate, and stacked bars can work for large numbers of conditions. Stacked densities are appropriate when the proportions change along a continuous variable.
+
+&lt;img src="figs/proportions-comp-1.png" height = "150 pt" align = 'center' &gt;
+
+Source: [Fundamentals of Data Vizualization](https://clauswilke.com/dataviz).
+---
+#How to vizualize x-y relationships
+
+Scatterplots are typical representation of x-y relationships. If we have three quantitative variables, we can map one onto the dot size, creating a bubble chart. If the variables along the x and the y axes are measured in the same units, it is helpful to add a line indicating x = y. Paired data can also be shown as a slope graph of paired points connected by straight lines.
+
+&lt;img src="figs/basic-scatter-1.png" height = "150 pt" align = 'center' &gt;&lt;/br&gt;
+--
+When the x axis represents time or a gradually increasing quantity, we commonly draw line graphs. If we have a temporal sequence of two response variables, we can draw a connected scatterplot. We can use smooth lines to represent trends in a larger dataset.
+
+&lt;img src="figs/xy-lines-1.png" height = "150 pt" align = 'center' &gt;
+
+Source: [Fundamentals of Data Vizualization](https://clauswilke.com/dataviz).
+---
+#There are more vizualization types...
+
+...which we won't be able to overview in this small course.&lt;/br&gt;
+But you can learn more on them in Claus Wilke's book on [Fundamentals of Data Vizualization](https://clauswilke.com/dataviz).
+
+&lt;img src="figs/xy-binning-1.png" height = "150 pt" align = 'center' &gt;&lt;/br&gt;
+&lt;img src="figs/geospatial-1.png" height = "150 pt" align = 'center' &gt;&lt;/br&gt;
+&lt;img src="figs/confidence-dists-1.png" height = "150 pt" align = 'center' &gt;
+
+---
+
+class: center, middle, inverse
+
+#Color
+
+---
+#Color
+.pull-left[
+There are four fundamental use cases for color in data visualizations: 
+- to distinguish groups of data from each other; 
+- to highlight relevant information;
+- to represent data values;
+- to adjust the layout (data-unrelated color).
+]
+.pull-right[
+]
+---
+#Color: case 1
+.pull-left[
+There are four fundamental use cases for color in data visualizations: 
+- &lt;a style="color:red"&gt;to distinguish groups of data from each other&lt;/a&gt;; 
+- to highlight relevant information; 
+- to represent data values;
+- to adjust the layout (data-unrelated color).
+]
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/colored barplot-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+#Color: case 1
+.pull-left[
+There are four fundamental use cases for color in data visualizations: 
+- &lt;a style="color:red"&gt;to distinguish groups of data from each other&lt;/a&gt;; 
+- to highlight relevant information; 
+- to represent data values;
+- to adjust the layout (data-unrelated color).
+]
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/line plot repeat-1.png" width="576" /&gt;
+]
+---
+#Color: case 2
+.pull-left[
+There are four fundamental use cases for color in data visualizations: 
+- to distinguish groups of data from each other; 
+- &lt;a style="color:red"&gt;to highlight relevant information&lt;/a&gt;; 
+- to represent data values;
+- to adjust the layout (data-unrelated color).
+]
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/colored barplot2-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+#Color: case 3
+.pull-left[
+There are four fundamental use cases for color in data visualizations: 
+- to distinguish groups of data from each other; 
+- to highlight relevant information; 
+- &lt;a style="color:red"&gt;to represent data values&lt;/a&gt;;
+- to adjust the layout (data-unrelated color).
+]
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/heatmap repeat-1.png" width="504" /&gt;
+]
+---
+#Color: case 4
+.pull-left[
+There are four fundamental use cases for color in data visualizations: 
+- to distinguish groups of data from each other; 
+- to highlight relevant information; 
+- to represent data values;
+- &lt;a style="color:red"&gt;to adjust the layout (data-unrelated color)&lt;/a&gt;.
+]
+.pull-right[
+&lt;img src="Lecture1_files/figure-html/colored barplot3-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
+---
+#To do before next week
+
+- Pass the quiz on the Brightspace.
+
+- Explore the source code of the lecture via [GitHub](https://github.com/VictoriaVMironova/DataViz_RU)
+
+- Be sure that you have the most recent version of R installed.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

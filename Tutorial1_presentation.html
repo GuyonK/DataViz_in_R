@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Vizualization in R</title>
+    <meta charset="utf-8" />
+    <script src="Tutorial1_presentation_files/header-attrs-2.18/header-attrs.js"></script>
+    <link href="Tutorial1_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="Tutorial1_presentation_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="Tutorial1_presentation_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link href="Tutorial1_presentation_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="Tutorial1_presentation_files/tile-view-0.2.6/tile-view.js"></script>
+    <link href="Tutorial1_presentation_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="Tutorial1_presentation_files/panelset-0.2.6/panelset.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"c36e5d0cebd24f0bac0757299141ed6e","expires":14}</script>
+    <script src="Tutorial1_presentation_files/himalaya-1.1.0/himalaya.js"></script>
+    <script src="Tutorial1_presentation_files/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="Tutorial1_presentation_files/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="Tutorial1_presentation_files/editable-0.2.6/editable.js"></script>
+    <script src="Tutorial1_presentation_files/fabric-4.3.1/fabric.min.js"></script>
+    <link href="Tutorial1_presentation_files/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="Tutorial1_presentation_files/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: left, middle
+####Tutorial 1
+
+##Data Vizualization in R
+####Victoria Mironova 
+####Associate Professor, Department of Plant Systems Physiology
+&lt;img src="figs/Theme2.png" width="100px" align = 'right'&gt;
+
+---
+
+
+.pull-left[
+#Course structure
+
+**Week 5:**&lt;/br&gt;
+Lecture 1. Principles of figure design.&lt;/br&gt;
+Quiz 1.
+
+**Week 6:**&lt;/br&gt;
+**Tutorial 1. ggplot2: plots and charts.**&lt;/br&gt;
+**Quiz 2.**
+
+**Week 7:**&lt;/br&gt;
+Tutorial 2. ggplot2: statistics, coordinate system, facets. &lt;/br&gt;
+Tutorial 3. ggplot2: themes and styles.&lt;/br&gt;
+Practice 1. &lt;/br&gt;
+Quiz 3.
+
+**Week 8:**&lt;/br&gt;
+Practice 2. Project.&lt;/br&gt;
+Practice 3. Project.&lt;/br&gt;
+Practice 4. Project.&lt;/br&gt;
+Assignment.
+]
+
+--
+.pull-right[
+
+# Learning goals	
+
+- Understand the basic principles behind effective data visualization	
+
+- **Create data visualizations in R using ggplot2**
+
+- Craft elegant visual presentations of data
+
+]
+---
+class: left, middle, inverse
+
+#Plan of the tutorial
+
+- ggplot2
+
+- Preparatory steps:
+
+  - Install libraries
+  - Get data into R
+
+- Design basic plots with ggplot2
+
+  - Visualize amounts
+  - ... x-y relationship
+  - ... distributions
+
+- Intro to Rmarkdown
+---
+
+.pull-left[ 
+&lt;div class="figure"&gt;
+&lt;img src="figs/DataStoryTelling2.jpg" alt="source: unknown" width="60%" /&gt;
+&lt;p class="caption"&gt;source: unknown&lt;/p&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+
+##Data vizualization platforms:
+
+- ...
+
+- Microsoft Excel and analogs
+
+- MatplotLib, Seaborn, and Plotly in Python
+
+- **ggplot2 in R**
+
+&lt;img src="figs/ggplot2_logo.png" width="150px" align = 'right'&gt;
+]
+
+???
+There are many platform for data vizualization. For sure, you are aware of at least one of them, Microsoft Excel or its analogs. However, there are many powerful data vizualization tools that allow scientists to communicate their findings more effectively. Like MatPlotLib and Seaborn Python libraries. This course is about one of such powerful systems made for R programming scientific community. It is ggplot2.
+
+---
+#ggplot2 applies the grammar of graphics
+
+.pull-left[
+&lt;div class="figure"&gt;
+&lt;img src="figs/GrammarGraphics.png" alt="Layers in grammar of graphics" width="100%" /&gt;
+&lt;p class="caption"&gt;Layers in grammar of graphics&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+The *grammar of graphics* is a plotting framework developed by Leland Wilkinson (Grammar of Graphics, 1999) that dissects each component of a graph into individual layer. 
+
+There are two important principles:
+
+- Graphics are made of distinct layers of grammatical elements
+
+- Plots are built with appropriate aesthetic mappings to make these plots meaningful
+
+]
+&lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
+
+---
+#Grammar of graphics
+
+.pull-left[
+&lt;div class="figure"&gt;
+&lt;img src="figs/GrammarGraphics2.png" alt="Layers in grammar of graphics" width="100%" /&gt;
+&lt;p class="caption"&gt;Layers in grammar of graphics&lt;/p&gt;
+&lt;/div&gt;
+]
+.pull-right[
+
+
+Three out of 7 layers are essential for any plot:
+
+**Data** This is the dataset being plotted containing the variables to be plotted on the graph.
+
+**Aesthetics**	Aesthetics refers to the scales on which we map the data. Some common aesthetics to consider are axis, shape, size, and color.
+
+**Geometries**	Geom refers to the actual visual elements used for the data in the plot, such as points, lines, and bars.
+
+]
+---
+#ggplot2: a simplified graphing template
+To make a graph, replace the bracketed sections in the following code with a *dataset*, a *geom* function, and a collection of *mappings*.
+
+`ggplot(data = &lt;DATA&gt;)+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGs&gt;))`
+
+---
+class: middle, inverse
+
+# Preparatory steps:
+
+- Install libraries
+
+- Get data into R
+
+---
+# Installing the packages
+
+Installation of the packages in R studio:
+
+
+```r
+*my_packages &lt;- c("tidyverse", "ggplot2")
+*install.packages(my_packages)
+```
+
+Call the libraries to your file:
+
+
+```r
+*library(tidyverse)
+*library(ggplot2)
+```
+
+
+
+
+???
+You might require additional packages to be installed...
+
+---
+#Getting data into R
+
+Number of deaths in the population of the Netherlands by main underlying cause of death, by age and sex, 1996-2021
+
+https://opendata.cbs.nl/statline/portal.html?_la=en&amp;_catalog=CBS&amp;tableId=7233ENG&amp;_theme=1120
+
+
+Identifier:	7233ENG
+
+Short title:	deaths; cause of death (extensive list)
+
+Reference period:	1996-2021
+
+
+&lt;img src="figs/CBS_OpenData_screenshot.png" width="500px" align = 'right'&gt;
+
+
+---
+#Getting data into R
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+*Death_in_NL &lt;- read_csv2(file = "Data/7233ENG_TypedDataSet_04112022_143444.csv")
+```
+]
+
+.panel[.panel-name[Table]
+
+
+```r
+knitr::kable(head(Death_in_NL), format = 'html')
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Periods &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths_1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022190 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A010668 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996JJ00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 890 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022191 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A010668 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1997JJ00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 736 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022192 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A010668 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998JJ00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 757 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022193 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A010668 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1999JJ00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 814 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A010668 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000JJ00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 788 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1022195 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A010668 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2001JJ00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 773 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+]
+???
+Cleaning and reading in your data is one of the least immediately satisfying pieces of an analysis. Fortunately, many of you already know how to manage data in R if you are taking Mandy Velthuis course on the data management in R. In this small course we will use preprocessed data. 
+
+But we still need to load the data into R, so we'll discuss this step.
+
+The code you see on the slide load the data downloaded from CBS Open data using read_csv() function from tidyverse package.
+
+
+The resulting message gives some information about the loaded file. Like the size. It also names the columns and tells us that the read_csv() function has assigned a class to each of the columns of the object it created from the CSV file. 
+
+
+You can look at the loaded table via "Environment" tab
+
+How do you think, is it a clean data? Can we work further with it?
+One can find the meaning for all these identification in 7233ENG_metadata.csv file from CBS
+
+---
+#Formating the data
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL &lt;- Death_in_NL %&gt;%
+  mutate(Sex = recode(Sex, "3000" = "Male", "4000" = "Female")) %&gt;%
+  mutate(CausesOfDeath = recode(CausesOfDeath,
+                      "A010668" = "Infections", "A010840" = "Neoplasms", "A011013" = "Endocr+Metabol", "A011087" = "Psychological", 
+                      "A011166" = "NervousSystem", "A011234" = "Eye+Adnexa","A011307" = "CirculatorySystem", "A011384" = "RespiratorySystem",
+                      "A011449" = "DigestiveSystem", "A011521" = "SkinDeseases", "A011594" = "MusculSystem", "A011674" = "GenitourinarySystem",
+                      "A011757" = "Pregnancy+Childbirth", "A011833" = "Perinatal", "A011893" = "CongenitalMalform", "A011981" = "UnclassifiedAbnorm",
+                      "A050205" = "COVID-19", "A012072" = "ExternalCauses")) %&gt;%
+  mutate(Age = recode(Age,
+                      "10000" = "Total", "10010" = "0", "22000" = "95+", "51300" = "1-9", "70200" = "1-9", "70300" = "10-14", "70400" = "15-19", "70500" = "20-24",
+                      "70600" = "25-29", "70700" = "30-34", "70800" = "35-39", "70900" = "40-44", "71000" = "45-49", "71100" = "50-54", "71200" = "55-59", "71300" = "60-64",
+                      "71400" = "65-69", "71500" = "70-74", "71600" = "75-79", "71700" = "80-84", "71800" = "85-89", "71900" = "90-94")) %&gt;%
+  mutate(Periods = recode(Periods,
+                      "1996JJ00" = "1996", "1997JJ00" = "1997", "1998JJ00" = "1998", "1999JJ00" = "1999", "2000JJ00" = "2000", "2001JJ00" = "2001", "2002JJ00" = "2002", "2003JJ00" = "2003",
+                      "2004JJ00" = "2004", "2005JJ00" = "2005", "2006JJ00" = "2006", "2007JJ00" = "2007", "2008JJ00" = "2008", "2009JJ00" = "2009", "2010JJ00" = "2010", "2011JJ00" = "2011",
+                      "2012JJ00" = "2012", "2013JJ00" = "2013", "2014JJ00" = "2014", "2015JJ00" = "2015", "2016JJ00" = "2016",  "2017JJ00" = "2017", "2018JJ00" = "2018",  "2019JJ00" = "2019",
+                      "2020JJ00" = "2020",  "2021JJ00" = "2021")) %&gt;%
+  rename("Year" = "Periods", "Deaths" = "Deaths_1")%&gt;%
+  drop_na(Deaths)%&gt;%
+  mutate(Year = as.numeric(Year))
+```
+]
+.panel[.panel-name[Output]
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2957560 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 85-89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Perinatal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1424313 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30-34 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Perinatal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2003 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1457025 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35-39 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CirculatorySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 110 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1377865 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 25-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Perinatal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2017 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2327624 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20-24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Neoplasms &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1985711 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90-94 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; UnclassifiedAbnorm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2009 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 179 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2995890 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90-94 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SkinDeseases &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2308669 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CongenitalMalform &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2575825 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45-49 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DigestiveSystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 53 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2473438 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35-39 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Psychological &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+]
+???
+Since the goal of this course is not to teach you all about R, but just how to produce good graphics, we can ignore many details, before they start interfering with you vizualizations of course. 
+
+But we need to polish the data, so it is more easily readable on the plots
+---
+#Data types: 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; CausesOfDeath &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Deaths &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1291232 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ExternalCauses &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 61 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2618583 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50-54 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CirculatorySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2015 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1317633 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20-24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CirculatorySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2897348 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 80-84 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CirculatorySystem &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4317 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2334070 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20-24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Psychological &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+- **ID**: Numeric ordered;
+- **Sex**: Factor, unordered;
+- **Age**: Factor, unordered;
+- **CausesOfDeath**: Factor, unordered;
+- **Year**: Numeric, ordered;
+- **Deaths**: Numeric, unordered.
+
+---
+#Build your first plot
+
+.panelset[
+.panel[.panel-name[Code]
+
+Graphing template: 
+
+`ggplot(data = &lt;DATA&gt;)+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGs&gt;))`
+
+Applied to the data:  
+
+```r
+Total &lt;- filter(Death_in_NL, Age == "Total")
+ggplot(data = Total)+
+  geom_point(mapping = aes(x = CausesOfDeath, y = Deaths))
+```
+
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/causes death first plot-1.png" width="1008" /&gt;
+]
+]
+
+???
+What you can understand from this plot?
+What are the problems?
+---
+#Build your second plot
+
+.panelset[
+.panel[.panel-name[Code]
+Graphing template: 
+
+`ggplot(data = &lt;DATA&gt;)+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGs&gt;))`
+
+Applied to the data:  
+
+```r
+Total &lt;- filter(Death_in_NL, Age == "Total")
+ggplot(data = Total)+
+* geom_point(mapping = aes(x = Year, y = Deaths))
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/death plot 2-1.png" width="1008" /&gt;
+]
+]
+---
+#Build your second plot: edited version
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Total_men &lt;- filter(Death_in_NL, Age == "Total", Sex == "Male")
+ggplot(data = Total_men)+
+  geom_point(mapping = aes(x = Year, y = Deaths, color = CausesOfDeath))
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/death plot 3-1.png" width="1008" /&gt;
+]
+]
+---
+#Build your second plot: edited version 2
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Total_men &lt;- filter(Death_in_NL, Age == "Total", Sex == "Male")
+ggplot(data = Total_men)+
+  geom_point(mapping = aes(x = Year, y = Deaths, color = CausesOfDeath))+
+* geom_path(mapping = aes(x = Year, y = Deaths, color = CausesOfDeath))
+```
+
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/death plot edit-1.png" width="1008" /&gt;
+]
+]
+---
+#Polishing the code
+
+.panelset[
+.panel[.panel-name[Code]
+These three chunks of code generate the same plot:
+
+```r
+Total_men &lt;- filter(Death_in_NL, Age == "Total", Sex == "Male")
+ggplot(data = Total_men)+
+  geom_point(mapping = aes(x = Year, y = Deaths, color = CausesOfDeath))+
+  geom_path(mapping = aes(x = Year, y = Deaths, color = CausesOfDeath))
+```
+
+
+```r
+Total_men &lt;- filter(Death_in_NL, Age == "Total", Sex == "Male")
+ggplot(Total_men, aes(x = Year, y = Deaths, color = CausesOfDeath))+
+  geom_point()+
+  geom_path()
+```
+
+
+```r
+Death_in_NL %&gt;%
+  filter(Age == "Total", Sex == "Male") %&gt;%
+  ggplot(aes(x = Year, y = Deaths, color = CausesOfDeath))+
+  geom_point()+
+  geom_path()
+```
+
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/death plot edit3-1.png" width="1008" /&gt;
+]
+]
+---
+#Graphing template: updated
+
+.pull-left[
+Minimal template:&lt;/br&gt;
+`ggplot(data = &lt;DATA&gt;)+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGs&gt;))&lt;/br&gt;`
+]
+.pull-right[
+Updated template:&lt;/br&gt;
+`ggplot(&lt;DATA&gt;)+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION1&gt;(aes(&lt;MAPPINGs1&gt;))+`&lt;/br&gt;
+`  &lt;GEOM_FUNCTION2&gt;(aes(&lt;MAPPINGs2&gt;))+`&lt;/br&gt;
+`  &lt;GEOM_FUNCTION3&gt;(aes(&lt;MAPPINGs3&gt;))`&lt;/br&gt;
+
+or if geoms use the same mappings:&lt;/br&gt;
+`ggplot(&lt;DATA&gt;, aes(&lt;MAPPINGs&gt;)+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION1&gt;()+`&lt;/br&gt;
+`  &lt;GEOM_FUNCTION2&gt;()+`&lt;/br&gt;
+`  &lt;GEOM_FUNCTION3&gt;()`&lt;/br&gt;
+
+or you can pipe (%&gt;%) the data into ggplot:&lt;/br&gt;
+`DATA %&gt;%`&lt;/br&gt;
+`ggplot()+` &lt;/br&gt;
+`  &lt;GEOM_FUNCTION1&gt;(aes(&lt;MAPPINGs1&gt;))+`&lt;/br&gt;
+`  &lt;GEOM_FUNCTION2&gt;(aes(&lt;MAPPINGs2&gt;))+`&lt;/br&gt;
+`  &lt;GEOM_FUNCTION3&gt;(aes(&lt;MAPPINGs3&gt;))`
+]
+---
+class:  middle, inverse
+
+# Build different vizualizations
+
+##Visualizing amounts
+
+---
+# Vizualizing amounts: bar plot 
+
+In many scenarios, we are interested in the magnitude of some set of numbers. The standard visualization in this scenario is the bar plot, which comes in several variations, including simple bars as well as grouped and stacked bars. 
+
+.panelset[
+.panel[.panel-name[Code]
+
+
+```r
+Neoplasms &lt;- filter(Death_in_NL, CausesOfDeath == "Neoplasms",
+                    Year == "2020",  Sex = "Male", Age != "Total")
+ggplot(data = Neoplasms)+
+   geom_col(mapping = aes(x = Age, y = Deaths))
+```
+
+or we can write the same concise:
+
+```r
+Death_in_NL %&gt;%
+  filter(CausesOfDeath == "Neoplasms", 
+         Year == "2020", Sex == "Male", Age != "Total")%&gt;%
+  ggplot(aes(x = Age, y = Deaths))+
+    geom_col()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/bar plot2-1.png" width="864" /&gt;
+]
+]
+---
+# Vizualizing amounts: grouped bar plot 
+
+In a grouped bar plot, we draw a group of bars at each position along the x axis, determined by one categorical variable, and then we draw bars within each group according to the other categorical variable.
+
+.panelset[
+.panel[.panel-name[Code]
+
+
+```r
+Death_in_NL %&gt;%
+  filter(CausesOfDeath == "Neoplasms", 
+         Year == "2020", Age != "Total")%&gt;%
+  ggplot(aes(x = Age, y = Deaths, fill = Sex))+
+    geom_col(position = "dodge")
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/grouped bar plot-1.png" width="864" /&gt;
+]
+]
+---
+# Vizualizing amounts: stacked bar plot 
+Instead of drawing groups of bars side-by-side, it is sometimes preferable to stack bars on top of each other. Stacking is useful when the sum of the amounts represented by the individual stacked bars is in itself a meaningful amount.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(CausesOfDeath == "Neoplasms", 
+         Year == "2020", Age != "Total")%&gt;%
+  ggplot(aes(x = Age, y = Deaths, fill = Sex))+
+    geom_col(position = "stack")
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/stacked bar plot-1.png" width="864" /&gt;
+]
+]
+---
+#Vizualizing amounts: heatmap
+
+As an alternative to mapping data values onto positions via bars or dots, we can map data values onto colors. Such a figure is called a heatmap.
+
+.panelset[
+.panel[.panel-name[Code]
+
+
+```r
+Death_in_NL %&gt;% 
+  filter(Sex == "Male", CausesOfDeath == "Infections", Age != "Total") %&gt;% 
+  ggplot(mapping = aes(x = Year, y = Age, fill = Deaths))+
+  geom_tile()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/heatmap example-1.png" width="576" /&gt;
+]
+]
+---
+class:  middle, inverse
+
+# Build different vizualizations
+
+##Visualizing x-y relationships
+
+---
+#Scatterplot
+A Scatterplot displays the relationship between two numeric variables. 
+
+.panelset[
+.panel[.panel-name[Code]
+
+
+```r
+Neoplasms &lt;- filter(Death_in_NL, CausesOfDeath == "Neoplasms", Age == "Total")
+p &lt;- ggplot(data = Neoplasms)+
+*   geom_point(mapping = aes(x = Year, y = Deaths, color = Sex))
+```
+
+or we can write the same more concise:
+
+```r
+Death_in_NL %&gt;%
+  filter(CausesOfDeath == "Neoplasms", Age == "Total")%&gt;%
+  ggplot(aes(x = Year, y = Deaths, color = Sex))+
+    geom_point()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/scatterplot1-1.png" width="864" /&gt;
+]
+]
+---
+#Line chart
+A line chart or line graph displays the evolution of one or several numeric variables. The input data frame requires at least two columns: an ordered numeric variable for the X axis; (2) another numeric variable for the Y axis.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(CausesOfDeath == "Neoplasms", Age == "Total")%&gt;%
+  ggplot(aes(x = Year, y = Deaths, color = Sex))+
+*   geom_line()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/line chart-1.png" width="864" /&gt;
+]
+]
+---
+#Line chart: updated
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(CausesOfDeath == "Neoplasms", Age == "Total")%&gt;%
+  ggplot(aes(x = Year, y = Deaths, color = Sex))+
+    geom_line()+
+    geom_point(shape=21, size=2)
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/line chart and scatter-1.png" width="864" /&gt;
+]
+]
+---
+#Smooth line graph 
+We can use smooth lines to represent trends in a larger dataset. The act of smoothing produces a function that captures key patterns in the data while removing irrelevant minor detail or noise.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;% 
+  filter(CausesOfDeath == "Infections", Age == "Total") %&gt;% 
+  ggplot(mapping = aes(x = Year, y = Deaths, color = Sex))+
+  geom_smooth()+
+  ggtitle("Smoothed conditional means")
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/smooth plot-1.png" width="864" /&gt;
+]
+]
+---
+class:  middle, inverse
+
+# Build different vizualizations
+
+##Visualizing distributions
+---
+# Histogram
+
+A histogram takes as input a *numeric* variable only. The variable is cut into several *bins*, and the number of observation per *bin* is represented by the height of the bar.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = Deaths))+
+* geom_histogram(binwidth=500)
+```
+
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/hist-1.png" width="1008" /&gt;
+]
+]
+
+---
+#Histogram: binwidth
+
+Play with the *bin* size, it can give different insight.
+
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = Deaths))+
+* geom_histogram(binwidth=100)
+```
+
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/hist bin-1.png" width="864" /&gt;
+]
+]
+
+---
+#Histogram: two variables
+
+It is possible to represent the distribution of *several variables* on the same axis using this technique.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = Deaths, fill = Sex))+
+    geom_histogram(color="#e9ecef", alpha=0.5, position="identity", binwidth = 800)+
+    scale_fill_manual(values=c("#69b3a2", "#404080"))
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/histogram two variables-1.png" width="864" /&gt;
+]
+]
+---
+#Density plot
+In a density plot, we attempt to visualize the underlying probability distribution of the data by drawing an appropriate continuous curve estimated from the data. The most commonly used method for this estimation procedure is called kernel density estimation.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;% 
+  filter(Age == "Total") %&gt;% 
+  ggplot(aes(x = Deaths, fill = Sex))+
+  geom_density(alpha = 0.5)+
+  ggtitle("Smoothed density estimate")
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/density plot-1.png" width="864" /&gt;
+]
+]
+---
+#Basic Boxplot
+
+A boxplot divides the data into quartiles and visualizes them in a standardized manner. You need to specify *a quantitative variable* for the Y axis, and *a qualitative variable* for the X axis (a group).
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age != "Total", CausesOfDeath == "Neoplasms")%&gt;%
+  ggplot(aes(x = Age, y = Deaths))+
+*   geom_boxplot(alpha=0.5)
+```
+]
+.panel[.panel-name[Output]
+.left-column[
+&lt;img src="figs/boxplot-schematic-1.png" height ="300px" align = 'right'&gt;
+[Anatomy of a boxplot](https://clauswilke.com/dataviz/boxplots-violins.html)
+]
+.right-column[
+&lt;img src="Tutorial1_presentation_files/figure-html/boxplot basic-1.png" width="864" /&gt;
+]
+
+]
+]
+
+---
+#A grouped boxplot
+
+Here we visualize the distribution of 21 groups (Age intervals) and 2 subgroups (Male and Female). The group must be called in the X argument of ggplot2. The subgroup is called in the fill or color argument.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age != "Total", CausesOfDeath == "Neoplasms")%&gt;%
+  ggplot(aes(x = Age, y = Deaths, fill = Sex))+
+*   geom_boxplot(alpha=0.5)
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/grouped boxplot-1.png" width="864" /&gt;
+
+]
+]
+
+---
+#Boxplot with individual data points
+
+A boxplot summarizes the distribution of a continuous variable. It is often criticized for hiding the underlying data. Therefore, showing individual observations using jitter on top of boxes is a good practice.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age != "Total", CausesOfDeath == "Neoplasms")%&gt;%
+  ggplot(aes(x = Age, y = Deaths))+
+*   geom_boxplot(aes(fill = Sex), alpha=0.5)+
+*   geom_jitter(color="black", size=0.5, alpha=0.9)
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/grouped boxplot jitter-1.png" width="864" /&gt;
+]
+]
+
+---
+#Violin plot
+
+Violin plot is really close from a boxplot, but allows a deeper understanding of the distribution. Violins are particularly adapted when the amount of data is huge and showing individual observations gets impossible.
+
+.panelset[
+.panel[.panel-name[Code]
+
+```r
+Death_in_NL %&gt;%
+  filter(Age == "Total")%&gt;%
+  ggplot(aes(x = Sex,  y = Deaths))+
+*   geom_violin(aes(fill = Sex))
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="Tutorial1_presentation_files/figure-html/violin plot-1.png" width="864" /&gt;
+]
+]
+---
+class: center, middle, inverse
+
+#Intro to Rmarkdown
+
+
+---
+#Why Rmarkdown?
+
+.pull-left[
+
+While performing data visualization, you will find yourself constantly pinging back and forth between three things:
+
+
+- Writing code. 
+
+- Looking at output. 
+
+- Taking Notes. 
+
+
+**Rmarkdown is a solution!**
+
+It will make your code:
+
+- Reproducible
+
+- Easy to adjust if your raw data changed
+
+- Easy to communicate the results
+]
+
+.pull-right[
+
+&lt;img src="figs/ch-02-simple-knit-tall.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+Writing code. You will write a lot of code to produce plots. You will also write code to load your data, to look quickly at tables of that data. Sometimes you will want to summarize, rearrange, subset, or augment your data, or run a statistical model with it. You will want to be able to write that code as easily and effectively as possible.
+Looking at output. Your code is a set of instructions that, when executed, produces the output you want: a table, a model, or a figure. It is often helpful to be able to see that output, and its partial results. While we’re working, it’s also useful to keep the code and the things produced by the code close together, if we can.
+Taking Notes. You will also be writing about what we are doing, and what your results mean. When learning how to do something in ggplot, for instance, you will want to make notes to yourself about what you did, why you wrote it this way rather than that, or what this new concept, function, or instruction does. Later, when doing data analysis and making figures, you will be writing up reports or drafting papers.
+---
+class: center
+
+#Rmarkdown in .Rmd file
+
+&lt;img src="figs/ch-02-rstudio-markdown.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+[SocViz](https://socviz.co/gettingstarted.html)
+
+
+???
+RMarkdown is not required for R. An alternative is to use an R script, which just contains R commands only.You can create an r script via File &gt; New File &gt; R Script. R script files conventionally have the extension .r or .R. (RMarkdown files conventionally end in .Rmd.) A very brief project might just need a single .r file. But RMarkdown is very useful for documents, notes, or reports of any length, especially when you need to take notes. If you do use an .r file you can leave comments or notes to yourself by starting a line with the hash character, #. You can also add comments at the end of lines in this way, as for any particular line R will ignore whatever code or text that appears after a #.
+---
+#Why do you need Rmd in the course?
+
+Lectures and tutorials were designed in Rmarkdown (using [xaringan](https://github.com/yihui/xaringan) package).
+
+This is how the source code of slide 14 looks like:
+&lt;img src="figs/WhyRmd_source code2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+#Why do you need Rmd in the course?
+
+- Lectures and tutorials were designed in Rmarkdown (using [xaringan](https://github.com/yihui/xaringan) package).
+
+- The source code for lectures and tutorials is available via [GitHub](https://github.com/VictoriaVMironova/DataViz_RU)
+
+    ... so you can learn how it works
+
+- You will make your assignment in Rmarkdown and submit it as .Rmd and .html files.
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

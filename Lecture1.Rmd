@@ -259,7 +259,7 @@ Reference period:	1996-2021
 # Types of data
 
 ```{r, fig.height= 8, fig.width = 10, fig.align='center', echo = FALSE}
-knitr::include_graphics('figs/DataType2.png')
+knitr::include_graphics('figs/DataType.png')
 ```
 <img src="figs/quiz.png" width="100px" align = 'right'>
 

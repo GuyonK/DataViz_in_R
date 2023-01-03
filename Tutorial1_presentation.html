@@ -3,7 +3,7 @@
   <head>
     <title>Data Vizualization in R</title>
     <meta charset="utf-8" />
-    <script src="Tutorial1_presentation_files/header-attrs-2.18/header-attrs.js"></script>
+    <script src="Tutorial1_presentation_files/header-attrs-2.16/header-attrs.js"></script>
     <link href="Tutorial1_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="Tutorial1_presentation_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="Tutorial1_presentation_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -11,7 +11,7 @@
     <script src="Tutorial1_presentation_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="Tutorial1_presentation_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="Tutorial1_presentation_files/panelset-0.2.6/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"c36e5d0cebd24f0bac0757299141ed6e","expires":14}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x10a61f7f176414ba770fdc6e85695f3","expires":14}</script>
     <script src="Tutorial1_presentation_files/himalaya-1.1.0/himalaya.js"></script>
     <script src="Tutorial1_presentation_files/js-cookie-3.0.0/js.cookie.js"></script>
     <link href="Tutorial1_presentation_files/editable-0.2.6/editable.css" rel="stylesheet" />
@@ -1021,79 +1021,6 @@ Death_in_NL %&gt;%
 &lt;img src="Tutorial1_presentation_files/figure-html/violin plot-1.png" width="864" /&gt;
 ]
 ]
----
-class: center, middle, inverse
-
-#Intro to Rmarkdown
-
-
----
-#Why Rmarkdown?
-
-.pull-left[
-
-While performing data visualization, you will find yourself constantly pinging back and forth between three things:
-
-
-- Writing code. 
-
-- Looking at output. 
-
-- Taking Notes. 
-
-
-**Rmarkdown is a solution!**
-
-It will make your code:
-
-- Reproducible
-
-- Easy to adjust if your raw data changed
-
-- Easy to communicate the results
-]
-
-.pull-right[
-
-&lt;img src="figs/ch-02-simple-knit-tall.png" width="50%" style="display: block; margin: auto;" /&gt;
-]
-
-???
-Writing code. You will write a lot of code to produce plots. You will also write code to load your data, to look quickly at tables of that data. Sometimes you will want to summarize, rearrange, subset, or augment your data, or run a statistical model with it. You will want to be able to write that code as easily and effectively as possible.
-Looking at output. Your code is a set of instructions that, when executed, produces the output you want: a table, a model, or a figure. It is often helpful to be able to see that output, and its partial results. While we’re working, it’s also useful to keep the code and the things produced by the code close together, if we can.
-Taking Notes. You will also be writing about what we are doing, and what your results mean. When learning how to do something in ggplot, for instance, you will want to make notes to yourself about what you did, why you wrote it this way rather than that, or what this new concept, function, or instruction does. Later, when doing data analysis and making figures, you will be writing up reports or drafting papers.
----
-class: center
-
-#Rmarkdown in .Rmd file
-
-&lt;img src="figs/ch-02-rstudio-markdown.png" width="55%" style="display: block; margin: auto;" /&gt;
-
-[SocViz](https://socviz.co/gettingstarted.html)
-
-
-???
-RMarkdown is not required for R. An alternative is to use an R script, which just contains R commands only.You can create an r script via File &gt; New File &gt; R Script. R script files conventionally have the extension .r or .R. (RMarkdown files conventionally end in .Rmd.) A very brief project might just need a single .r file. But RMarkdown is very useful for documents, notes, or reports of any length, especially when you need to take notes. If you do use an .r file you can leave comments or notes to yourself by starting a line with the hash character, #. You can also add comments at the end of lines in this way, as for any particular line R will ignore whatever code or text that appears after a #.
----
-#Why do you need Rmd in the course?
-
-Lectures and tutorials were designed in Rmarkdown (using [xaringan](https://github.com/yihui/xaringan) package).
-
-This is how the source code of slide 14 looks like:
-&lt;img src="figs/WhyRmd_source code2.png" width="70%" style="display: block; margin: auto;" /&gt;
-
----
-
-#Why do you need Rmd in the course?
-
-- Lectures and tutorials were designed in Rmarkdown (using [xaringan](https://github.com/yihui/xaringan) package).
-
-- The source code for lectures and tutorials is available via [GitHub](https://github.com/VictoriaVMironova/DataViz_RU)
-
-    ... so you can learn how it works
-
-- You will make your assignment in Rmarkdown and submit it as .Rmd and .html files.
-
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

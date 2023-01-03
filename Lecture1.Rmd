@@ -160,7 +160,7 @@ Practice 4. Project.</br>
 
 You will learn how to visualize the data in R.
 
-These slides were also designed in R and you can find the source code on [GitHub](https://github.com/VictoriaVMironova/DataViz_RU):
+These slides were also designed in R and you can find the source code on [GitHub](https://github.com/VictoriaVMironova/DataViz_in_R):
 
 ```{r install packages, eval = FALSE} 
 my_packages <- c("tidyverse", "ggplot2", "cowplot", "remotes")
@@ -797,7 +797,9 @@ Death_in_NL %>%
 
 - Pass the quiz on the Brightspace.
 
-- Explore the source code of the lecture via [GitHub](https://github.com/VictoriaVMironova/DataViz_RU)
+- Explore the source code of the lecture via [GitHub](https://github.com/VictoriaVMironova/DataViz_in_R)
 
 - Be sure that you have the most recent version of R installed.
+
+- Download the dataset on causes of death in NL from [CBS Open Portal](https://opendata.cbs.nl/statline/portal.html?_la=nl&_catalog=CBS&tableId=7233&_theme=165)
 

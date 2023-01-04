@@ -3,7 +3,7 @@
   <head>
     <title>Data Vizualization in R</title>
     <meta charset="utf-8" />
-    <script src="Tutorial3_presentation_files/header-attrs-2.18/header-attrs.js"></script>
+    <script src="Tutorial3_presentation_files/header-attrs-2.19/header-attrs.js"></script>
     <link href="Tutorial3_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="Tutorial3_presentation_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="Tutorial3_presentation_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -11,7 +11,7 @@
     <script src="Tutorial3_presentation_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="Tutorial3_presentation_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="Tutorial3_presentation_files/panelset-0.2.6/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x1962632acf5445b93649bc64915eb06","expires":14}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x108aba35c7042ed8d64ce75b08767b5","expires":14}</script>
     <script src="Tutorial3_presentation_files/himalaya-1.1.0/himalaya.js"></script>
     <script src="Tutorial3_presentation_files/js-cookie-3.0.0/js.cookie.js"></script>
     <link href="Tutorial3_presentation_files/editable-0.2.6/editable.css" rel="stylesheet" />
@@ -267,7 +267,7 @@ class: inverse, middle
 
 ```r
 Death_in_NL%&gt;%
-  filter(Age == "Total")%&gt;%
+  filter(Age == "Total", Sex == "Male")%&gt;%
   ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
   stat_summary(fun.data = "mean_se", geom = "bar")+
   coord_flip()+
@@ -301,12 +301,12 @@ Lets address those issues!
 
 ```r
 Death_in_NL%&gt;%
-  filter(Age == "Total")%&gt;%
+  filter(Age == "Total", Sex == "Male")%&gt;%
   ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
   stat_summary(fun.data = "mean_se", geom = "bar")+
   coord_flip()+
 * labs(y = NULL, x = NULL)+
-* ggtitle("Number of people died yearly in NL (1995 - 2021)")
+* ggtitle("Number of deceased men per year in NL (1996 - 2021)")
 ```
 ]
 .pull-right[
@@ -325,15 +325,15 @@ Death_in_NL%&gt;%
 
 ```r
 Death_in_NL%&gt;%
-  filter(Age == "Total")%&gt;%
+  filter(Age == "Total", Sex == "Male")%&gt;%
   ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
   stat_summary(fun.data = "mean_se", geom = "bar")+
   coord_flip()+
   labs(y = NULL, x = NULL)+
 * theme_classic()+
 * theme(axis.text = element_text(size = 12),
-*       title = element_text(size = 14))+
-* ggtitle("Number of people died yearly in NL (1995 - 2021)")
+*       title = element_text(size = 13))+
+* ggtitle("Number of deceased men per year in NL (1996 - 2021)")
 ```
 ]
 .pull-right[
@@ -352,7 +352,7 @@ Death_in_NL%&gt;%
 
 ```r
 Death_in_NL%&gt;%
-  filter(Age == "Total")%&gt;%
+  filter(Age == "Total", Sex == "Male")%&gt;%
   ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths))+
   stat_summary(fun.data = "mean_se", geom = "bar", 
 *              fill = "#99d8c9")+
@@ -360,8 +360,8 @@ Death_in_NL%&gt;%
   labs(y = NULL, x = NULL)+
   theme_classic()+
   theme(axis.text = element_text(size = 12),
-        title = element_text(size = 14))+
-  ggtitle("Number of people died yearly in NL (1995 - 2021)")
+        title = element_text(size = 13))+
+  ggtitle("Number of deceased men per year in NL (1996 - 2021)")
 ```
 You can pick the color [here](https://colorbrewer2.org/), or [here](https://fffuel.co/cccolor/)].
 .pull-right[
@@ -375,7 +375,7 @@ One can add additional elements and annotations
 
 ```r
 Death_in_NL%&gt;%
-  filter(Age == "Total")%&gt;%
+  filter(Age == "Total", Sex == "Male")%&gt;%
   ggplot(aes(x = reorder(CausesOfDeath, -Deaths), y = Deaths, fill = Sex))+
   stat_summary(fun.data = "mean_se", geom = "bar", fill = "#99d8c9")+
 * geom_hline(yintercept=3000, linetype="dotted")+
@@ -384,8 +384,8 @@ Death_in_NL%&gt;%
   labs(y = NULL, x = NULL)+
   theme_classic()+
   theme(axis.text = element_text(size = 12),
-        title = element_text(size = 14))+
-  ggtitle("Number of people died yearly in NL (1995 - 2021)")
+        title = element_text(size = 13))+
+  ggtitle("Number of deceased men per year in NL (1996 - 2021)")
 ```
 ]
 .pull-right[
@@ -407,7 +407,7 @@ Death_in_NL%&gt;%
   theme_classic()+
   theme(axis.text = element_text(size = 12),
         title = element_text(size = 14))+
-  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  ggtitle("Number of deceased per year in NL (1996 - 2021)")+
 * facet_wrap(~Sex)
 ```
 ]
@@ -433,7 +433,7 @@ Death_in_NL%&gt;%
         title = element_text(size = 14),
 *       strip.background = element_blank(),
 *       strip.text = element_text(size = 14))+
-  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  ggtitle("Number of deceased per year in NL (1996 - 2021)")+
   facet_wrap(~Sex)
 ```
 ]
@@ -462,7 +462,7 @@ Death_in_NL%&gt;%
         title = element_text(size = 14),
         strip.background = element_blank(), 
         strip.text = element_text(size = 14))+
-  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  ggtitle("Number of deceased per year in NL (1996 - 2021)")+
   facet_wrap(~CausesOfDeath)
 ```
 ]
@@ -486,7 +486,7 @@ Death_in_NL%&gt;%
         title = element_text(size = 14),
         strip.background = element_blank(), 
         strip.text = element_text(size = 14))+
-  ggtitle("Number of people died yearly in NL (1995 - 2021)")+
+  ggtitle("Number of deceased per year in NL (1996 - 2021)")+
   facet_wrap(~CausesOfDeath)
 ```
 Are the differences significant?
@@ -508,7 +508,7 @@ Death_in_NL%&gt;%
 * stat_summary(fun.data = "mean_se", show.legend = FALSE)+
   scale_color_manual(values = c("#ef8a62", "#67a9cf"))+ 
   theme_classic()+
-* labs(x = NULL, y = "Number of people died in NL (1995 - 2021)")+
+* labs(x = NULL, y = "Number of deceased per year in NL (1996 - 2021)")+
   theme(axis.text = element_text(size = 12),
         title = element_text(size = 14),
         strip.background = element_blank(), 
@@ -538,7 +538,7 @@ Death_in_NL%&gt;%
   stat_summary(fun.data = "mean_se", show.legend = FALSE)+
   scale_color_manual(values = c("#ef8a62", "#67a9cf"))+ 
   theme_classic()+
-  labs(x = NULL, y = "Number of people died in NL (1995 - 2021)")+
+  labs(x = NULL, y = "Number of deceased per year in NL (1996 - 2021)")+
   theme(axis.text = element_text(size = 12),
         title = element_text(size = 14),
         strip.background = element_blank(), 
@@ -570,7 +570,7 @@ Death_in_NL%&gt;%
                 add = "jitter", shape = "Sex")+
   facet_wrap(~CausesOfDeath)+
   stat_compare_means(label = "p.format", label.x = 1.5)+
-  labs(x = NULL, y = "Number of people died in NL (1995 - 2021)")+
+  labs(x = NULL, y = "Number of deceased men per year in NL (1996 - 2021)")+
   theme(axis.text = element_text(size = 12),
         title = element_text(size = 14),
         strip.background = element_blank(), 
@@ -584,13 +584,19 @@ Death_in_NL%&gt;%
 ---
 #Your turn
 
-1. Build a plot to analyze how the number of deaths from external causes (not a disease) has been changed over past years. &lt;/br&gt;
-1. Study the differences between men and women. Is there statistically significant difference?&lt;/br&gt; 
+Part1.
+
+Using Death_in_NL dataset build the following two vizualizations:
+- What is an age profile of the number of deaths from external causes (not a disease) in NL? Is there any differences between
+man and women?
+- How the number of perinatal deaths in NL changed over time?
 
 You will need these data to answer the quiz in the brightspace.&lt;/br&gt;
 &lt;img src="figs/quiz.png" width="100px" align = 'right'&gt;
 
-1. Adjust the style and design of the plot making it visually appealing.
+Part 2.
+
+- Adjust the style and design of the plot making it visually appealing.
 
 You will need these skills to finalize your project next week.&lt;/br&gt;
     </textarea>

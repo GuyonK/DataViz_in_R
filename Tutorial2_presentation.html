@@ -3,7 +3,7 @@
   <head>
     <title>Data Vizualization in R</title>
     <meta charset="utf-8" />
-    <script src="Tutorial2_presentation_files/header-attrs-2.18/header-attrs.js"></script>
+    <script src="Tutorial2_presentation_files/header-attrs-2.16/header-attrs.js"></script>
     <link href="Tutorial2_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="Tutorial2_presentation_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="Tutorial2_presentation_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
@@ -11,7 +11,7 @@
     <script src="Tutorial2_presentation_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="Tutorial2_presentation_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="Tutorial2_presentation_files/panelset-0.2.6/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"ae14187abca8454a8d2d80402f9a3277","expires":14}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"ec2f53a88b7c448c9de632e7c5fff499","expires":14}</script>
     <script src="Tutorial2_presentation_files/himalaya-1.1.0/himalaya.js"></script>
     <script src="Tutorial2_presentation_files/js-cookie-3.0.0/js.cookie.js"></script>
     <link href="Tutorial2_presentation_files/editable-0.2.6/editable.css" rel="stylesheet" />
@@ -188,12 +188,12 @@ Number of deaths in the population of the Netherlands by main underlying cause o
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-- **ID**: Numeric ordered;
-- **Sex**: Factor, unordered;
-- **Age**: Factor, unordered;
-- **CausesOfDeath**: Factor, unordered;
-- **Year**: Numeric, ordered;
-- **Deaths**: Numeric, unordered.
+- **ID**: Numeric, continuous;
+- **Sex**: Categorical, unordered;
+- **Age**: Categorical, ordered;
+- **CausesOfDeath**: categorical, unordered;
+- **Year**: Numeric, discreet;
+- **Deaths**: Numeric, continuous.
 
 ---
 #Updated graphing template
@@ -207,9 +207,10 @@ On the last tutorial you saw an incomplete template highlighted in yellow. Below
 *   mapping = aes(&lt;MAPPINGs&gt;),
     method = &lt;STAT&gt;,
     position = &lt;POSITION&gt;) +
-  &lt;STAT_FUNCTION&gt;+
-  &lt;COORDINATE_FUNCTION&gt;+
-  &lt;FACET_FUNCTION&gt;
+  &lt;STAT_FUNCTION&gt;()+
+  &lt;COORDINATE_FUNCTION&gt;()+
+  &lt;FACET_FUNCTION&gt;()+
+  &lt;THEME&gt;()
 ```
 ---
 class: center, middle, inverse
@@ -351,7 +352,7 @@ Death_in_NL %&gt;%
 ]
 
 ---
-class: left, middle, inverse
+class: center, middle, inverse
 #Facetted graphs
 ---
 #Vizualizing data slices, line plot
@@ -366,7 +367,6 @@ mycolors &lt;- colorRampPalette(brewer.pal(8, "Set1"))(nb.cols)
 Death_in_NL %&gt;%
   filter(Age == "Total")%&gt;%
   ggplot(aes(x = Year, y = Deaths, color = CausesOfDeath))+
-  geom_point(shape=21, size=2)+
   geom_path(linewidth = 1)+
   scale_colour_manual(values = mycolors)+
   ggtitle("Total number of deaths from different causes")+

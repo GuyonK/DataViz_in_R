@@ -138,12 +138,12 @@ knitr::kable(slice_sample(Death_in_NL, n = 5), format = 'html')
 
 ```
 
-- **ID**: Numeric ordered;
-- **Sex**: Factor, unordered;
-- **Age**: Factor, unordered;
-- **CausesOfDeath**: Factor, unordered;
-- **Year**: Numeric, ordered;
-- **Deaths**: Numeric, unordered.
+- **ID**: Numeric, continuous;
+- **Sex**: Categorical, unordered;
+- **Age**: Categorical, ordered;
+- **CausesOfDeath**: categorical, unordered;
+- **Year**: Numeric, discreet;
+- **Deaths**: Numeric, continuous.
 
 ---
 #Updated graphing template
@@ -157,9 +157,10 @@ ggplot(data = <DATA>)+ #<<
     mapping = aes(<MAPPINGs>),#<<
     method = <STAT>,
     position = <POSITION>) +
-  <STAT_FUNCTION>+
-  <COORDINATE_FUNCTION>+
-  <FACET_FUNCTION>
+  <STAT_FUNCTION>()+
+  <COORDINATE_FUNCTION>()+
+  <FACET_FUNCTION>()+
+  <THEME>()
 ```
 ---
 class: center, middle, inverse
@@ -304,7 +305,7 @@ Death_in_NL %>%
 ]
 
 ---
-class: left, middle, inverse
+class: center, middle, inverse
 #Facetted graphs
 ---
 #Vizualizing data slices, line plot
@@ -318,7 +319,6 @@ mycolors <- colorRampPalette(brewer.pal(8, "Set1"))(nb.cols)
 Death_in_NL %>%
   filter(Age == "Total")%>%
   ggplot(aes(x = Year, y = Deaths, color = CausesOfDeath))+
-  geom_point(shape=21, size=2)+
   geom_path(linewidth = 1)+
   scale_colour_manual(values = mycolors)+
   ggtitle("Total number of deaths from different causes")+
@@ -572,5 +572,5 @@ Using `Death_in_NL` dataset build the following two vizualizations:
 
 2) How the number of perinatal deaths in NL changed over time?
 
-You will need this plot to answer the quiz in the brightspace (to be done after Tutorial 3).
+You will need these plots to answer the quiz in the brightspace (to be done after Tutorial 3).
 <img src="figs/quiz.png" width="100px" align = 'right'>

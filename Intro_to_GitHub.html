@@ -1,111 +1,111 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Intro to Rmarkdown</title>
+    <title>Intro to GitHub</title>
     <meta charset="utf-8" />
     <meta name="author" content="Victoria Mironova" />
-    <meta name="date" content="2023-01-03" />
-    <script src="Intro_to_Rmarkdown_files/header-attrs-2.19/header-attrs.js"></script>
-    <link href="Intro_to_Rmarkdown_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="Intro_to_Rmarkdown_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
-    <link href="Intro_to_Rmarkdown_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <meta name="date" content="2023-01-09" />
+    <script src="Intro_to_GitHub_files/header-attrs-2.19/header-attrs.js"></script>
+    <link href="Intro_to_GitHub_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="Intro_to_GitHub_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="Intro_to_GitHub_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link href="Intro_to_GitHub_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="Intro_to_GitHub_files/tile-view-0.2.6/tile-view.js"></script>
+    <link href="Intro_to_GitHub_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="Intro_to_GitHub_files/panelset-0.2.6/panelset.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"e715af85dea94bbe88b007adac7e7985","expires":14}</script>
+    <script src="Intro_to_GitHub_files/himalaya-1.1.0/himalaya.js"></script>
+    <script src="Intro_to_GitHub_files/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="Intro_to_GitHub_files/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="Intro_to_GitHub_files/editable-0.2.6/editable.js"></script>
+    <script src="Intro_to_GitHub_files/fabric-4.3.1/fabric.min.js"></script>
+    <link href="Intro_to_GitHub_files/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="Intro_to_GitHub_files/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
   </head>
   <body>
     <textarea id="source">
-
 
 class: left, middle
 ####Preparatory step
 
 ##Data Vizualization in R
-##Intro to Rmarkdown
+##Intro to GitHub
 ####Victoria Mironova 
 ####Associate Professor, Department of Plant Systems Physiology
-&lt;img src="figs/Theme2.png" width="100px" align = 'right'&gt;
 ---
-#Data vizualization process
+#Why do you need GitHub in the course?
+  
+The source code for the lecture and tutorials is available via [GitHub](https://github.com/VictoriaVMironova/DataViz_in_R)
+
+... so you can find how I built all the plots
+
+... and reuse the code chunks
+
+... you also can learn how to generate slides and/or reports using .Rmd
+
+The data used in the course (raw and processed ones) can also be found there.
+
+
+---
+#Basic Option: download the whole project in ZIP format
+
+1) Go to https://github.com/VictoriaVMironova/DataViz_in_R
+
+2) Choose Code/Download ZIP
+
+&lt;img src="figs/GitHub.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+3) Unzip on your computer 
+
+---
+#Advanced option: use Git 
+
+1) Install git and create a GitHub account 
+
+2) Create a local git repository for [DataViz_in_R](https://github.com/VictoriaVMironova/DataViz_in_R):
 
 .pull-left[
-
-While performing data visualization, you will find yourself constantly pinging back and forth between three things:
-
-
-- Writing code. 
-
-- Looking at output. 
-
-- Taking Notes. 
+*New Project/Version control/Git/Clone Git Repository*
+&lt;img src="figs/Version Control.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
----
-#Rmarkdown is a solution!
-
-.pull-left[
-
-While performing data visualization, you will find yourself constantly pinging back and forth between three things:
-
-
-- Writing code. 
-
-- Looking at output. 
-
-- Taking Notes. 
-
-**Rmarkdown is a solution!**
-
-It will make your code:
-
-- Reproducible
-
-- Easy to adjust if your raw data changed
-
-- Easy to communicate the results
-]
-
 .pull-right[
-
-&lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="figs/ch-02-simple-knit-tall.png" alt="https://socviz.co/" width="45%" /&gt;
-&lt;p class="caption"&gt;https://socviz.co/&lt;/p&gt;
-&lt;/div&gt;
-
+URL: https://github.com/VictoriaVMironova/DataViz_in_R
+&lt;img src="figs/Git_new_repo.png" width="60%" style="display: block; margin: auto;" /&gt;
 ]
 
-???
-Writing code. You will write a lot of code to produce plots. You will also write code to load your data, to look quickly at tables of that data. Sometimes you will want to summarize, rearrange, subset, or augment your data, or run a statistical model with it. You will want to be able to write that code as easily and effectively as possible.
-Looking at output. Your code is a set of instructions that, when executed, produces the output you want: a table, a model, or a figure. It is often helpful to be able to see that output, and its partial results. While we’re working, it’s also useful to keep the code and the things produced by the code close together, if we can.
-Taking Notes. You will also be writing about what we are doing, and what your results mean. When learning how to do something in ggplot, for instance, you will want to make notes to yourself about what you did, why you wrote it this way rather than that, or what this new concept, function, or instruction does. Later, when doing data analysis and making figures, you will be writing up reports or drafting papers.
+3) run the code locally
+
+4) you can [commit](https://github.com/git-guides/git-commit) the changes and [pull](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) the requests to the `devel` [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) if you would like to contribute to the course improvement
+
+5) or you can [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the repository to your GitHub account 
 ---
-class: center
+#First step working with the source files
 
-#Rmarkdown in .Rmd file
+0) Open the project in Rstudio
 
-&lt;img src="figs/ch-02-rstudio-markdown.png" width="55%" style="display: block; margin: auto;" /&gt;
+1) run *_packages.R* to install all the packages you need
 
-[SocViz](https://socviz.co/gettingstarted.html)
+2) run *Data_processing.R* to process the data
 
+3) proceed with the course materials: 
 
-???
-RMarkdown is not required for R. An alternative is to use an R script, which just contains R commands only.You can create an r script via File &gt; New File &gt; R Script. R script files conventionally have the extension .r or .R. (RMarkdown files conventionally end in .Rmd.) A very brief project might just need a single .r file. But RMarkdown is very useful for documents, notes, or reports of any length, especially when you need to take notes. If you do use an .r file you can leave comments or notes to yourself by starting a line with the hash character, #. You can also add comments at the end of lines in this way, as for any particular line R will ignore whatever code or text that appears after a #.
----
-#Why do you need Rmd in the course?
-
-Lectures and tutorials were designed in Rmarkdown (using [xaringan](https://github.com/yihui/xaringan) package).
-
-This is how the source code of the slide 2 looks like:
-&lt;img src="figs/WhyRmd_source code2.png" width="70%" style="display: block; margin: auto;" /&gt;
+  -  either open and knit *.Rmd* files, 
+  
+  -  or open *.html* files (choose *View in Web Browser* option).
 
 ---
+#Tutorials on Git and GitHub
 
-#Why do you need Rmd in the course?
+If you would like to learn more about version control using Git and GitHub, &lt;/br&gt;
+you can watch this tutorial on Youtube:
 
-- Lectures and tutorials were designed in Rmarkdown (using [xaringan](https://github.com/yihui/xaringan) package).
+[0 experience to Professional in 1 Tutorial](https://www.youtube.com/watch?v=hrTQipWp6co)
 
-- The source code for lectures and tutorials is available via [GitHub](https://github.com/VictoriaVMironova/DataViz_in_R)
 
-    ... so you can learn how it works
+or read this tutorial:
 
-- It is better to make your project in Rmarkdown and submit it as .Rmd and .pdf files for evaluation.
-
+[An Intro to Git and GitHub for Beginners](https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

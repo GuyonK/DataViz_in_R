@@ -566,11 +566,12 @@ ggsave(filename= "figs/BarPlotSD.png", device = png, width = 10, height = 10, un
 ---
 #Your turn
 
-Using `Death_in_NL` dataset build the following two vizualizations:
+Using the `Death_in_NL` dataset, build the following two visualizations:
 
-1) What is an age profile of the number of deaths from external causes (not a disease) in NL? Is there any differences between man and women?
+1) What is the age profile of the number of deaths from external causes (not a disease) in NL? Is there any difference between men and women? 
 
-2) How the number of perinatal deaths in NL changed over time?
+2) How has the number of perinatal deaths in the Netherlands changed over time? 
 
-You will need these plots to answer the quiz in the brightspace (to be done after Tutorial 3).
+You will need this information to complete the quiz in the brightspace (to be done after Tutorial 3).
+
 <img src="figs/quiz.png" width="100px" align = 'right'>

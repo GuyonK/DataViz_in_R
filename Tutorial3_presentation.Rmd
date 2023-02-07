@@ -597,14 +597,14 @@ Death_in_NL%>%
 ---
 #Your turn
 
-Part1.
+Part 1.
 
-Using Death_in_NL dataset build the following two vizualizations:
-- What is an age profile of the number of deaths from external causes (not a disease) in NL? Is there any differences between
-man and women?
-- How the number of perinatal deaths in NL changed over time?
+Using the `Death_in_NL` dataset, build the following two visualizations: 
 
-You will need these data to answer the quiz in the brightspace.</br>
+1) What is the age profile of the number of deaths from external causes (not a disease) in NL? Is there any difference between men and women? 
+
+2) How has the number of perinatal deaths in the Netherlands changed over time? 
+You will need this information to complete the quiz in the brightspace. </br>
 <img src="figs/quiz.png" width="100px" align = 'right'>
 
 Part 2.

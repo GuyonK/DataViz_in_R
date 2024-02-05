@@ -101,21 +101,21 @@ knitr::include_graphics('figs/DataStoryTelling2.jpg')
 .pull-right[
 #Course structure
 
-**Week 5:**</br>
+**Week 1-2:**</br>
 Lecture 1. Principles of figure design.</br>
 Quiz 1.
 
-**Week 6:**</br>
+**Week 3-4:**</br>
 Tutorial 1. ggplot2: plots and charts.</br>
 Quiz 2.
 
-**Week 7:**</br>
+**Week 5-6:**</br>
 Tutorial 2. ggplot2: statistics, coordinate system, facets. </br>
 Tutorial 3. ggplot2: themes and styles.</br>
 Practice 1. </br>
 Quiz 3.
 
-**Week 8:**</br>
+**Week 7-8:**</br>
 Practice 2. Project.</br>
 Practice 3. Project.</br>
 Practice 4. Project.</br>
@@ -132,22 +132,22 @@ knitr::include_graphics('figs/DataStoryTelling2.jpg')
 .pull-right[
 #Evaluation criteria
 
-**Week 5:**</br>
+**Week 1-2:**</br>
 Lecture 1. Principles of figure design.</br>
 *Quiz 1. --> passed*
 
-**Week 6:**</br>
+**Week 3-4:**</br>
 Tutorial 1. ggplot2: plots and charts.</br>
 *Quiz 2. --> passed*
 
-**Week 7:**</br>
+**Week 5-6:**</br>
 Tutorial 2. ggplot2: statistics, coordinate system, facets. </br>
 Tutorial 3. ggplot2: themes and styles.</br>
 Practice 1. </br>
 *Quiz 3. --> passed*
 
 
-**Week 8:**</br>
+**Week 7-8:**</br>
 Practice 2. Project.</br>
 <img src="figs/check.png" width="100px" align = 'right'>
 Practice 3. Project.</br>
@@ -245,7 +245,7 @@ https://opendata.cbs.nl/statline/
 ---
 # Data 
 
-Number of deaths in the population of the Netherlands by main underlying cause of death, by age and sex, 1996-2021
+Number of deaths in the population of the Netherlands by main underlying cause of death, by age and sex, 1996-2022
 
 https://opendata.cbs.nl/statline/portal.html?_la=en&_catalog=CBS&tableId=7233ENG&_theme=1120
 
@@ -254,7 +254,7 @@ Identifier:	7233ENG
 
 Short title:	deaths; cause of death (extensive list)
 
-Reference period:	1996-2021
+Reference period:	1996-2022
 ---
 # Types of data
 
@@ -298,7 +298,7 @@ knitr::kable(slice_sample(Death_in_NL, n = 10), format = 'html')
 To examine a concrete example of these various types of data, lets take a look at the Table on the right. It shows 10 randomly chosen rows from a dataset providing the statistics on the number of deaths in NL population. We will work with this data during this course so I will introduce it to you in greater detail on the next slides.
 Can you already guess what types of data present in the columns?
 ---
-# The data must be tidy to be plotted in gramar or graphics
+# The data must be tidy to be plotted in grammar of graphics
 
 Following three rules makes a dataset tidy:
 
@@ -793,7 +793,7 @@ Death_in_NL %>%
 ```
 ]
 ---
-#To do before next week
+#To do before next period
 
 - Pass the quiz on the Brightspace.
 

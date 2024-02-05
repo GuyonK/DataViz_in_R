@@ -49,21 +49,21 @@ Death_in_NL <- read_delim(file = "Data/Death_in_NL_formatted.csv", col_names = T
 .pull-left[
 #Course structure
 
-**Week 5:**</br>
+**Week 1-2:**</br>
 Lecture 1. Principles of figure design.</br>
 Quiz 1.
 
-**Week 6:**</br>
+**Week 3-4:**</br>
 Tutorial 1. ggplot2: plots and charts.</br>
 Quiz 2.
 
-**Week 7:**</br>
+**Week 5-6:**</br>
 Tutorial 2. ggplot2: statistics, coordinate system, facets. </br>
 **Tutorial 3. ggplot2: themes and styles.**</br>
 **Practice 1.** </br>
 Quiz 3.
 
-**Week 8:**</br>
+**Week 7-8:**</br>
 Practice 2. Project.</br>
 Practice 3. Project.</br>
 Practice 4. Project.</br>
@@ -604,6 +604,7 @@ Using the `Death_in_NL` dataset, build the following two visualizations:
 1) What is the age profile of the number of deaths from external causes (not a disease) in NL? Is there any difference between men and women? 
 
 2) How has the number of perinatal deaths in the Netherlands changed over time? 
+</br>
 You will need this information to complete the quiz in the brightspace. </br>
 <img src="figs/quiz.png" width="100px" align = 'right'>
 

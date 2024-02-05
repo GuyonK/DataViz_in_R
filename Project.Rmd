@@ -24,22 +24,22 @@ class: left, middle
 #Course structure and evaluation
 
 .pull-left[
-**Week 5:**</br>
+**Week 1-2:**</br>
 Lecture 1. Principles of figure design.</br>
 *Quiz 1. --> Brightspace*
 
-**Week 6:**</br>
+**Week 3-4:**</br>
 Tutorial 1. ggplot2: plots and charts.</br>
 *Quiz 2. --> Brightspace*
 
-**Week 7:**</br>
+**Week 5-6:**</br>
 Tutorial 2. ggplot2: statistics, coordinate system, facets. </br>
 Tutorial 3. ggplot2: themes and styles.</br>
 Practice 1. </br>
 *Quiz 3. --> Brightspace*
 
 
-**Week 8:**</br>
+**Week 7-8:**</br>
 Practice 2. Project.</br>
 <img src="figs/check.png" width="100px" align = 'right'>
 Practice 3. Project.</br>
@@ -51,7 +51,7 @@ Practice 4. Project.</br>
 
 In this course we use the same open data for training and evaluation purposes:
 
-Number of deaths in the population of the Netherlands by main underlying cause of death, by age and sex, 1996-2021
+Number of deaths in the population of the Netherlands by main underlying cause of death, by age and sex, 1996-2022
 
 https://opendata.cbs.nl/statline/portal.html?_la=en&_catalog=CBS&tableId=7233ENG&_theme=1120
 
@@ -66,13 +66,13 @@ knitr::include_graphics('figs/TestingData_Project.png')
 
 Made two different visualizations using ggplot2 using testing data:
 
-- specify at least 5 out of 7 grammar of graphics layers for each vizualization
+- specify at least 5 out of 7 grammar of graphics' layers for each visualization
 
 - make them knowledgeable (so that you can make a right conclusion looking at the plot) 
 
 - present them with a short description in .Rmd and .pdf format
 
-- upload two files (.Rmd and .pdf) to the Brightspace
+- upload two files (.Rmd and .pdf) to the Brightspace. Alternatively, you can also submit .R and .pdf if you have difficulties with Rmarkdown.
 
 ---
 #How to generate .pdf from .Rmd

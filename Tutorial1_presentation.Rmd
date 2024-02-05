@@ -33,21 +33,21 @@ set.seed(100)
 .pull-left[
 #Course structure
 
-**Week 5:**</br>
+**Week 1-2:**</br>
 Lecture 1. Principles of figure design.</br>
 Quiz 1.
 
-**Week 6:**</br>
+**Week 3-4:**</br>
 **Tutorial 1. ggplot2: plots and charts.**</br>
 **Quiz 2.**
 
-**Week 7:**</br>
+**Week 5-6:**</br>
 Tutorial 2. ggplot2: statistics, coordinate system, facets. </br>
 Tutorial 3. ggplot2: themes and styles.</br>
 Practice 1. </br>
 Quiz 3.
 
-**Week 8:**</br>
+**Week 7-8:**</br>
 Practice 2. Project.</br>
 Practice 3. Project.</br>
 Practice 4. Project.</br>
@@ -206,7 +206,7 @@ Identifier:	7233ENG
 
 Short title:	deaths; cause of death (extensive list)
 
-Reference period:	1996-2021
+Reference period:	1996-2022
 
 
 <img src="figs/CBS_OpenData_screenshot.png" width="500px" align = 'right'>
